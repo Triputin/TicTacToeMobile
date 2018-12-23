@@ -39,14 +39,14 @@ import android.content.res.Configuration;
 import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
-    private final int maxFieldSize=9;
-    private TicTacToe activePlayer = TicTacToe.Zero;
-    private int gameSize=3;
-    private static boolean isFirstStart = true;
-    private TextView label;
-    private SmartImage[][] board =  new SmartImage [maxFieldSize][maxFieldSize];
+    private final int maxFieldSize=9; //restricts game field size
+    private TicTacToe activePlayer = TicTacToe.Zero; // current player
+    private int gameSize=3; // default game size
+    private static boolean isFirstStart = true; // flag to identify that drawfield is needed
+    private TextView label; // shows active player and result of game
+    private SmartImage[][] board =  new SmartImage [maxFieldSize][maxFieldSize]; // array of field cells
     private boolean isGameOver=false;
-    private int gameType=2;
+    private int gameType=2; // kind of game and who will make the first turn
     private static final String STATE_GAMESIZE = "GameSize";
     private static final String STATE_TEXT_LABEL = "Label";
     private static final String STATE_BOARD = "Board";
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     String[] languages = {"English","Русский"};
     private int activeSkin = 0;
     private int activeLanguage =0;
-    private boolean blockPlayer = false;// Устанавливает на время запрет действий
+    private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
 
     @Override
         protected void onSaveInstanceState(Bundle outState) {
@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(isFirstStart){
             drawFieldWithImages();
-            //drawField();
         }
 
 
