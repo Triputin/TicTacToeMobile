@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Крестики-нолики</string>
+    <string name="language">Язык</string>
+    <string name="boardsize">Размер поля</string>
+    <string name="restart_game">Заново</string>
+    <string name="bot_play_1st">Бот ходит первым</string>
+    <string name="bot_play_2nd">Бот ходит вторым</string>
+    <string name="human_game">Два игрока</string>
+    <string name="choose_language">Выберите язык:</string>
+    <string name="choose_skin">Выберите стиль:</string>
+    <string name="choose_skin_menu">Выбор стиля</string>
+    <string name="winnerIs">Победитель</string>
+    <string name="win">Победитель</string>
+    <string name="draw">Ничья!</string>
+    <string name="action_settings">Два игрока</string>
+    <string name="ok">Принять</string>
+    <string name="cancel">Отменить</string>
+</resources>

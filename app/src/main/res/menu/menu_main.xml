@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.v_triputin.tictactoemobile.MainActivity">
+    <item
+        android:id="@+id/chooseskin"
+        android:orderInCategory="100"
+        android:title="@string/choose_skin_menu" />
+    <group
+        android:checkableBehavior="single"
+        android:orderInCategory="102">
+        <item
+            android:id="@+id/gametype0"
+            android:orderInCategory="101"
+            android:title="@string/human_game"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/gametype1"
+            android:title="@string/bot_play_1st" />
+        <item
+            android:id="@+id/gametype2"
+            android:checked="true"
+            android:title="@string/bot_play_2nd" />
+    </group>
+    <item
+    android:id="@+id/boardsize"
+    android:orderInCategory="103"
+    android:title="@string/boardsize" />
+    <item
+        android:id="@+id/restartgame"
+        android:orderInCategory="104"
+        android:title="@string/restart_game" />
+    <item
+        android:id="@+id/changelanguage"
+        android:orderInCategory="105"
+        android:title="@string/language" />
+</menu>
