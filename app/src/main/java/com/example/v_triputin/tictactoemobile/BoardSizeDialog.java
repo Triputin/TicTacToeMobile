@@ -11,7 +11,7 @@ import android.widget.Button;
 
 
 // !!!Этот класс не используется в коде. Используется только макет в board_size_dialog.xml !!!
-// Возможно его надо удалить если не найдется применение
+// Возможно его надо удалить если не найдется применение...
 public class BoardSizeDialog extends DialogFragment {
 
     @Override
