@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
        // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         label = (TextView) findViewById(R.id.textView);
 
+
         ShowActivePlayer();
 
 
@@ -529,6 +530,9 @@ public class MainActivity extends AppCompatActivity {
                     label.setText(getResources().getString(R.string.win)+" "+ board[i+y][x].getState().toString());
                     showWinner(board[i+y][x].getState().toString());
                     System.out.println("x="+x+" y="+y);
+                    SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
+                    smartTableLayout.setWinLine(WinLineTypes.Horizontal,board[i+y][x],board[i+y][x+2],i+y,i+y,true);
+
                     return true;
                 }
             }
@@ -546,6 +550,8 @@ public class MainActivity extends AppCompatActivity {
                 if(win==3){
                     label.setText(getResources().getString(R.string.win)+" " + board[y][i+x].getState().toString());
                     showWinner(board[y][i+x].getState().toString());
+                    SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
+                    smartTableLayout.setWinLine( WinLineTypes.Vertical ,board[y][i+x],board[2+y][i+x], y,y+2,true);
                     return true;
                 }
             }
@@ -554,6 +560,9 @@ public class MainActivity extends AppCompatActivity {
             if((board[y][x].getState()==board[y+1][x+1].getState())&&(board[y+1][x+1].getState()==board[y+2][x+2].getState())){
                 label.setText(getResources().getString(R.string.win)+" " + board[y][x].getState().toString());
                 showWinner(board[y][x].getState().toString());
+                SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
+                smartTableLayout.setWinLine(WinLineTypes.LeftUpToRightDown, board[y][x],board[y+2][x+2],y,y+2,true);
+
                 return true;
             }
 
@@ -562,6 +571,9 @@ public class MainActivity extends AppCompatActivity {
             if((board[y][x+2].getState()==board[y+1][x+1].getState())&&(board[y+1][x+1].getState()==board[y+2][x].getState())){
                 label.setText(getResources().getString(R.string.win)+" " + board[y][x+2].getState().toString());
                 showWinner(board[y][x+2].getState().toString());
+                SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
+                smartTableLayout.setWinLine(WinLineTypes.LeftDownToRightUp, board[y][x+2],board[y+2][x],y+2, y, true);
+
                 return true;
             }
 
@@ -570,6 +582,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void restartGame(){
+        SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
+        // forbid line draw
+        smartTableLayout.setWinLine(WinLineTypes.Horizontal, board[0][0],board[0][0],1,1,false);
+
         switch (gameType) {
             case 0:  onHumanGame();
                 break;
