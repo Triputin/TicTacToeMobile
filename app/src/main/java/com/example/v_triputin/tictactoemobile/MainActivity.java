@@ -460,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
         ShowActivePlayer();
 
         checkDraw();
-        //isGameOver=checkWin();
+
         if((!isGameOver)&&(gameType==1)||(!isGameOver)&&(gameType==2)) {
             if (activePlayer == TicTacToe.Cross) {
                 AI().setState(TicTacToe.Cross,activeSkin);
@@ -551,7 +551,7 @@ public class MainActivity extends AppCompatActivity {
                     label.setText(getResources().getString(R.string.win)+" " + board[y][i+x].getState().toString());
                     showWinner(board[y][i+x].getState().toString());
                     SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
-                    smartTableLayout.setWinLine( WinLineTypes.Vertical ,board[y][i+x],board[2+y][i+x], y,y+2,true);
+                    smartTableLayout.setWinLine( WinLineTypes.Vertical ,board[y][i+x],board[2+y][i+x], y,2+y,true);
                     return true;
                 }
             }
@@ -572,7 +572,7 @@ public class MainActivity extends AppCompatActivity {
                 label.setText(getResources().getString(R.string.win)+" " + board[y][x+2].getState().toString());
                 showWinner(board[y][x+2].getState().toString());
                 SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
-                smartTableLayout.setWinLine(WinLineTypes.LeftDownToRightUp, board[y][x+2],board[y+2][x],y+2, y, true);
+                smartTableLayout.setWinLine(WinLineTypes.LeftDownToRightUp, board[y+2][x],board[y][x+2],y+2, y, true);
 
                 return true;
             }
