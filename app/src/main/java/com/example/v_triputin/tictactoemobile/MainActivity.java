@@ -35,6 +35,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import java.util.Locale;
 import android.content.res.Configuration;
+import android.app.DialogFragment;
+import android.view.View.OnClickListener;
 
 import java.net.URI;
 
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private int activeSkin = 0;
     private int activeLanguage =0;
     private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
+    DialogFragment dlg1;
 
     @Override
         protected void onSaveInstanceState(Bundle outState) {
@@ -99,10 +102,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SettingsLoader.Settings settings = new SettingsLoader.Settings();
+        settings.activeSkin  = activeSkin;
+        settings.gameSize = gameSize;
+        settings.gameType = gameType;
+        settings.activeLanguage = activeLanguage;
+
+        SettingsLoader.saveAppSettings(this,settings);
+    }
+    */
+
+    @Override
+    protected void onStop() {
+
+        SettingsLoader.Settings settings = new SettingsLoader.Settings();
+        settings.activeSkin  = activeSkin;
+        settings.gameSize = gameSize;
+        settings.gameType = gameType;
+        settings.activeLanguage = activeLanguage;
+
+        SettingsLoader.saveAppSettings(this,settings);
+        super.onStop();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button btnMenu = (Button) findViewById(R.id.buttonMenu);
+
+        // создаем обработчик нажатия
+        OnClickListener oclBtnMenu = new OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                DialogMenu dialogMenu = new DialogMenu();
+                dialogMenu.show(getFragmentManager(), "dlg1");
+            }
+        };
+
+        // присвоим обработчик кнопке (btnMenu)
+        btnMenu.setOnClickListener(oclBtnMenu);
+
+        SettingsLoader.Settings settings;
+        //SettingsLoader settingsLoader = new SettingsLoader();
+        settings = SettingsLoader.getAppSettings(this);
+        activeSkin = settings.activeSkin;
+        gameSize = settings.gameSize;
+        gameType = settings.gameType;
+        activeLanguage = settings.activeLanguage;
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -240,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         //и отображаем его:
         alertDialog.show();
     }
+
     public void getChoosedSkin(Context context){
         //Получаем вид с файла board_size_dialog.xml, который применим для диалогового окна:
         LayoutInflater li = LayoutInflater.from(context);
