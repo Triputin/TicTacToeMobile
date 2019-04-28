@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,10 +42,10 @@ import android.view.View.OnClickListener;
 
 import java.net.URI;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
     private final int maxFieldSize=9; //restricts game field size
     private TicTacToe activePlayer = TicTacToe.Zero; // current player
-    private int gameSize=3; // default game size
+    private  int gameSize=3; // default game size
     private static boolean isFirstStart = true; // flag to identify that drawfield is needed
     private TextView label; // shows active player and result of game
     private SmartImage[][] board =  new SmartImage [maxFieldSize][maxFieldSize]; // array of field cells
@@ -58,6 +60,41 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE_ACTIVE_SKIN = "ActiveSkin";
     String[] skins = {"Default","RoosterVsPony"};
     String[] languages = {"English","Русский"};
+
+    @Override
+    public void onClick(View view) {
+
+                Intent intent = new Intent(this, Menu_Activity.class);
+
+                intent.putExtra("gameSize", gameSize);
+
+                startActivityForResult(intent,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // запишем в лог значения requestCode и resultCode
+        Log.d("myLogs", "requestCode = " + requestCode + ", resultCode = " + resultCode);
+        // если пришло ОК
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    int gameSizeNew = data.getIntExtra("gameSize", 3);
+                    if(gameSize!= gameSizeNew){
+                        gameSize=gameSizeNew;
+
+                        changeBordSize();
+                    }
+                    break;
+            }
+            // если вернулось не ОК
+        } else {
+            Toast.makeText(this, "Wrong result 1", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
     private int activeSkin = 0;
     private int activeLanguage =0;
     private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
@@ -136,18 +173,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button btnMenu = (Button) findViewById(R.id.buttonMenu);
 
-        // создаем обработчик нажатия
-        OnClickListener oclBtnMenu = new OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                DialogMenu dialogMenu = new DialogMenu();
-                dialogMenu.show(getFragmentManager(), "dlg1");
-            }
-        };
+
 
         // присвоим обработчик кнопке (btnMenu)
-        btnMenu.setOnClickListener(oclBtnMenu);
+        btnMenu.setOnClickListener(this);
+
+
 
         SettingsLoader.Settings settings;
         //SettingsLoader settingsLoader = new SettingsLoader();
@@ -368,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
     public TicTacToe getActivePlayer() {
         return activePlayer;
     }
-    public  void changeBordSize(){
+    public   void changeBordSize(){
         clearField();
         drawFieldWithImages();
         //drawField();
@@ -384,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
         setBackGround();
     }
 
-    public void clearField(){
+    public  void clearField(){
         TableLayout layout =(TableLayout) findViewById(R.id.tablelayout);
         layout.removeAllViews();
         for (int i=0;i<gameSize;i++){
@@ -783,7 +814,6 @@ public void changeLanguage(int languageId){
         }
 
 }
-
     public  SmartImage checkPairs(TicTacToe state, int x, int y ){
         SmartImage smartImage = board[0][0];
         int countCross = 0;
@@ -901,6 +931,7 @@ public void changeLanguage(int languageId){
 
             }
         }
+
 
 
 }
