@@ -43,6 +43,7 @@ import android.view.View.OnClickListener;
 import java.net.URI;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
+
     private final int maxFieldSize=9; //restricts game field size
     private TicTacToe activePlayer = TicTacToe.Zero; // current player
     private  int gameSize=3; // default game size
@@ -58,8 +59,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private static final String STATE_IS_GAME_OVER = "IsGameOver";
     private static final String STATE_GAMETYPE = "GameType";
     private static final String STATE_ACTIVE_SKIN = "ActiveSkin";
-    String[] skins = {"Default","RoosterVsPony"};
-    String[] languages = {"English","Русский"};
+    static String[] skins = {"Default","RoosterVsPony"};
+    static String[] languages = {"English","Русский"};
+    static String[] gameTypeArray = {"OnHumanGame","OnBotGameO","OnBotGameX"};
+    private int activeSkin = 0;
+    private int activeLanguage =0;
+    private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
+    DialogFragment dlg1;
 
     @Override
     public void onClick(View view) {
@@ -67,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 Intent intent = new Intent(this, Menu_Activity.class);
 
                 intent.putExtra("gameSize", gameSize);
+                intent.putExtra("language", activeLanguage);
+                intent.putExtra("skin", activeSkin);
+                intent.putExtra("gameType", gameType);
 
                 startActivityForResult(intent,1);
     }
@@ -85,6 +94,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
                         changeBordSize();
                     }
+                    int activeLanguageNew = data.getIntExtra("language", 0);
+                    if(activeLanguage!=activeLanguageNew){
+                        activeLanguage=activeLanguageNew;
+                        changeLanguage(activeLanguage);
+                    }
+                    int activeSkinNew = data.getIntExtra("skin", 0);
+                    if(activeSkin!=activeSkinNew){
+                        activeSkin=activeSkinNew;
+                        changeSkin(activeSkin);
+                    }
+                    int activeGameTypeNew = data.getIntExtra("gameType", 2);
+                    if(gameType!=activeGameTypeNew){
+                        gameType=activeGameTypeNew;
+                       setGameType(gameType);
+                    }
                     break;
             }
             // если вернулось не ОК
@@ -95,10 +119,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 
 
-    private int activeSkin = 0;
-    private int activeLanguage =0;
-    private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
-    DialogFragment dlg1;
 
     @Override
         protected void onSaveInstanceState(Bundle outState) {
@@ -187,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         gameSize = settings.gameSize;
         gameType = settings.gameType;
         activeLanguage = settings.activeLanguage;
-
+        changeLanguage(activeLanguage);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -202,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         if(isFirstStart){
             drawFieldWithImages();
+            changeSkin(activeSkin);
+
         }
 
 

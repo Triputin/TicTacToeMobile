@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 public class Menu_Activity extends AppCompatActivity implements OnClickListener {
     int gameSize;
+    int activeLanguage;
+    int activeSkin;
+    int gameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,9 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
         findViewById(R.id.buttonExit).setOnClickListener(this);
         Intent intent = getIntent();
         gameSize = intent.getIntExtra("gameSize",3);
+        activeLanguage = intent.getIntExtra("language",0);
+        activeSkin = intent.getIntExtra("skin",0);
+        gameType = intent.getIntExtra("gameType",2);
     }
 
     @Override
@@ -31,6 +37,9 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
         switch (view.getId()) {
             case R.id.buttonContinue:
                 intent.putExtra("gameSize",gameSize);
+                intent.putExtra("language",activeLanguage);
+                intent.putExtra("skin",activeSkin);
+                intent.putExtra("gameType",gameType);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -39,6 +48,9 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
             case R.id.buttonSettings:
                  intent = new Intent(this, Menu_Settings_Activity.class);
                  intent.putExtra("gameSize",gameSize);
+                 intent.putExtra("language",activeLanguage);
+                 intent.putExtra("skin",activeSkin);
+                intent.putExtra("gameType",gameType);
                 startActivityForResult(intent, 2);
                 break;
             case R.id.buttonExit:
@@ -56,6 +68,9 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
             switch (requestCode) {
                 case 2:
                     gameSize = data.getIntExtra("gameSize", 3);
+                    activeLanguage = data.getIntExtra("language", 0);
+                    activeSkin = data.getIntExtra("skin", 0);
+                    gameType = data.getIntExtra("gameType", 2);
                     break;
             }
             // если вернулось не ОК
