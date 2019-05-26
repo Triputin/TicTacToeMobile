@@ -2,17 +2,21 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu_Settings_Activity">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
         android:text="@string/boardsize"
+        android:textColor="#fff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,19 +26,27 @@
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
         android:ems="10"
         android:inputType="number"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.327"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewLanguage"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
         android:text="@string/choose_language"
+        android:textColor="#fff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameSize" />
 
@@ -44,50 +56,36 @@
         android:layout_height="99dp"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
         android:listSelector="@color/colorPrimaryDark"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewLanguage" />
 
     <TextView
         android:id="@+id/textViewGameType"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:text="@string/choose_skin"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
+        android:text="@string/choose_gameType"
+        android:textColor="#fff"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewSkin" />
-
-
-    <Button
-        android:id="@+id/buttonBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:text="Back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewGameType" />
-
-    <ListView
-        android:id="@+id/listViewGameType"
-        android:layout_width="214dp"
-        android:layout_height="116dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="20dp"
-        android:listSelector="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewSkin" />
 
     <TextView
         android:id="@+id/textViewSkin"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
         android:text="@string/choose_skin"
+        android:textColor="#fff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewLanguage" />
 
@@ -97,9 +95,37 @@
         android:layout_height="99dp"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
         android:listSelector="@color/colorPrimaryDark"
+        android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameSize" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewGameType" />
+
+    <ListView
+        android:id="@+id/listViewGameType"
+        android:layout_width="214dp"
+        android:layout_height="147dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="20dp"
+        android:alpha="0.9"
+        android:background="@color/colorPrimary"
+        android:listSelector="@color/colorPrimaryDark"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewSkin" />
 
 
 </android.support.constraint.ConstraintLayout>

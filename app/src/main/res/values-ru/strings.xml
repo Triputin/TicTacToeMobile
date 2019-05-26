@@ -15,4 +15,10 @@
     <string name="action_settings">Два игрока</string>
     <string name="ok">Принять</string>
     <string name="cancel">Отменить</string>
+    <string name="choose_gameType">Выберите тип игры:</string>
+    <string name="back">Назад</string>
+    <string name="first_menu_continue">Продолжить</string>
+    <string name="first_menu_map">Карта</string>
+    <string name="first_menu_settings">Настройки</string>
+    <string name="first_menu_exit">Выход</string>
 </resources>

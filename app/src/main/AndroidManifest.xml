@@ -19,8 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menu_Activity" />
-        <activity android:name=".Menu_Settings_Activity"></activity>
+        <activity android:name=".Menu_Activity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Menu_Settings_Activity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

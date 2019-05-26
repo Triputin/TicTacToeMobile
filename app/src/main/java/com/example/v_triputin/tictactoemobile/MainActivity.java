@@ -24,6 +24,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintLayout.LayoutParams;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 intent.putExtra("gameType", gameType);
 
                 startActivityForResult(intent,1);
+
     }
 
     @Override
@@ -190,8 +192,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
         Button btnMenu = (Button) findViewById(R.id.buttonMenu);
+
 
 
 
@@ -209,8 +214,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         activeLanguage = settings.activeLanguage;
         changeLanguage(activeLanguage);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
 
        // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

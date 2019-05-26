@@ -2,9 +2,12 @@ package com.example.v_triputin.tictactoemobile;
 
 
 import android.content.Intent;
+import android.graphics.Point;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -23,12 +26,12 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
         findViewById(R.id.buttonContinue).setOnClickListener(this);
         findViewById(R.id.buttonLevelMap).setOnClickListener(this);
         findViewById(R.id.buttonSettings).setOnClickListener(this);
-        findViewById(R.id.buttonExit).setOnClickListener(this);
         Intent intent = getIntent();
         gameSize = intent.getIntExtra("gameSize",3);
         activeLanguage = intent.getIntExtra("language",0);
         activeSkin = intent.getIntExtra("skin",0);
         gameType = intent.getIntExtra("gameType",2);
+        setBackGround();
     }
 
     @Override
@@ -53,8 +56,6 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
                 intent.putExtra("gameType",gameType);
                 startActivityForResult(intent, 2);
                 break;
-            case R.id.buttonExit:
-                break;
 
         }
 
@@ -78,4 +79,36 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
             Toast.makeText(this, "Wrong result 2", Toast.LENGTH_SHORT).show();
         }
     }
+    public void setBackGround() {
+        ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.layout1);
+        Display display = this.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        if (width < height) {
+            switch (activeSkin) {
+                case 0:
+                    constraintLayout.setBackgroundResource(R.drawable.brick01);
+                    break;
+                case 1:
+                    constraintLayout.setBackgroundResource(R.drawable.back_nature01);
+                    break;
+
+            }
+        }
+        else{
+            switch (activeSkin) {
+                case 0:
+                    constraintLayout.setBackgroundResource(R.drawable.brick02);
+                    break;
+                case 1:
+                    constraintLayout.setBackgroundResource(R.drawable.back_nature02);
+                    break;
+
+            }
+
+        }
+    }
+
 }
