@@ -96,8 +96,15 @@ public class Menu_Settings_Activity extends AppCompatActivity implements View.On
 
 
         // создаем адаптер
+        String[] strings;
+        if(intent.getIntExtra("language",0)==0){
+            strings= MainActivity.gameTypeArrayEn;
+        }else{
+            strings= MainActivity.gameTypeArrayRu;
+        }
+
         ArrayAdapter<String> adapterGameType = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_activated_1, MainActivity.gameTypeArray){
+                android.R.layout.simple_list_item_activated_1, strings){
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -118,6 +125,11 @@ public class Menu_Settings_Activity extends AppCompatActivity implements View.On
         listViewGameType.setItemsCanFocus(true);
         listViewGameType.setItemChecked(intent.getIntExtra("gameType",2),true);
         setBackGround();
+    }
+
+    @Override
+    public void onBackPressed() {
+       onClick(null);
     }
 
     @Override

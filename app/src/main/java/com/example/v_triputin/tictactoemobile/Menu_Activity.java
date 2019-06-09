@@ -35,28 +35,42 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
     }
 
     @Override
+    public void onBackPressed() {
+        onClick(null);
+    }
+
+    @Override
     public void onClick(View view) {
         Intent intent=new Intent(this,Menu_Activity.class);
-        switch (view.getId()) {
-            case R.id.buttonContinue:
-                intent.putExtra("gameSize",gameSize);
-                intent.putExtra("language",activeLanguage);
-                intent.putExtra("skin",activeSkin);
-                intent.putExtra("gameType",gameType);
-                setResult(RESULT_OK, intent);
-                finish();
-                break;
-            case R.id.buttonLevelMap:
-                break;
-            case R.id.buttonSettings:
-                 intent = new Intent(this, Menu_Settings_Activity.class);
-                 intent.putExtra("gameSize",gameSize);
-                 intent.putExtra("language",activeLanguage);
-                 intent.putExtra("skin",activeSkin);
-                intent.putExtra("gameType",gameType);
-                startActivityForResult(intent, 2);
-                break;
+        if(view == null){
+            intent.putExtra("gameSize",gameSize);
+            intent.putExtra("language",activeLanguage);
+            intent.putExtra("skin",activeSkin);
+            intent.putExtra("gameType",gameType);
+            setResult(RESULT_OK, intent);
+            finish();
+        }else {
+            switch (view.getId()) {
+                case R.id.buttonContinue:
+                    intent.putExtra("gameSize", gameSize);
+                    intent.putExtra("language", activeLanguage);
+                    intent.putExtra("skin", activeSkin);
+                    intent.putExtra("gameType", gameType);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    break;
+                case R.id.buttonLevelMap:
+                    break;
+                case R.id.buttonSettings:
+                    intent = new Intent(this, Menu_Settings_Activity.class);
+                    intent.putExtra("gameSize", gameSize);
+                    intent.putExtra("language", activeLanguage);
+                    intent.putExtra("skin", activeSkin);
+                    intent.putExtra("gameType", gameType);
+                    startActivityForResult(intent, 2);
+                    break;
 
+            }
         }
 
     }

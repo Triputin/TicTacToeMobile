@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">TicTacToeMobile</string>
     <string name="language">Language</string>
-    <string name="boardsize">Board size</string>
+    <string name="boardsize">Board size:</string>
     <string name="restart_game">Restart</string>
     <string name="bot_play_1st">Bot play 1st</string>
     <string name="bot_play_2nd">Bot play 2nd</string>
     <string name="human_game">Human game</string>
-    <string name="choose_language">Choose language:</string>
-    <string name="choose_skin">Choose skin:</string>
+    <string name="choose_language">Language:</string>
+    <string name="choose_skin">Skin:</string>
     <string name="choose_skin_menu">Choose skin</string>
     <string name="winnerIs">Winner is </string>
     <string name="win">Winner is </string>
@@ -15,10 +15,12 @@
     <string name="action_settings">Human game</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
-    <string name="choose_gameType">Choose game type:</string>
+    <string name="choose_gameType">Game type:</string>
     <string name="back">Back</string>
     <string name="first_menu_continue">Continue</string>
     <string name="first_menu_map">Map</string>
     <string name="first_menu_settings">Settings</string>
     <string name="first_menu_exit">Exit</string>
+    <string name="main_menu_menu">Menu</string>
+
 </resources>

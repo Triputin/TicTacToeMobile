@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private TicTacToe activePlayer = TicTacToe.Zero; // current player
     private  int gameSize=3; // default game size
     private static boolean isFirstStart = true; // flag to identify that drawfield is needed
-    private TextView label; // shows active player and result of game
     private SmartImage[][] board =  new SmartImage [maxFieldSize][maxFieldSize]; // array of field cells
     private boolean isGameOver=false;
     private int gameType=2; // kind of game and who will make the first turn
@@ -62,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private static final String STATE_ACTIVE_SKIN = "ActiveSkin";
     static String[] skins = {"Default","RoosterVsPony"};
     static String[] languages = {"English","Русский"};
-    static String[] gameTypeArray = {"OnHumanGame","OnBotGameO","OnBotGameX"};
+    static String[] gameTypeArrayEn = {"Two players","Bot plays first","Bot plays second"};
+    static String[] gameTypeArrayRu = {"Два игрока","Бот играет первым","Бот играет вторым"};
     private int activeSkin = 0;
     private int activeLanguage =0;
     private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.buttonMenu:
 
                 Intent intent = new Intent(this, Menu_Activity.class);
 
@@ -78,7 +80,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 intent.putExtra("skin", activeSkin);
                 intent.putExtra("gameType", gameType);
 
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.buttonRestart:
+                restartGame();
+                break;
+        }
 
     }
 
@@ -135,10 +142,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
         }
         outState.putStringArray(STATE_BOARD,stringBoard);
-        outState.putString(STATE_TEXT_LABEL,label.getText().toString());
         outState.putInt(STATE_GAMESIZE,gameSize);
         super.onSaveInstanceState(outState);
     }
+
+
+    public int getActiveLanguage() {
+        return activeLanguage;
+    }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -157,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 board[i][j].setState( TicTacToe.fromString(stringBoard[i*(gameSize)+j]),activeSkin);
             }
         }
-        label.setText(savedInstanceState.getString(STATE_TEXT_LABEL));
+
 
     }
 
@@ -196,14 +208,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_main);
 
         Button btnMenu = (Button) findViewById(R.id.buttonMenu);
-
-
-
-
+        Button btnRestart = (Button) findViewById(R.id.buttonRestart);
         // присвоим обработчик кнопке (btnMenu)
         btnMenu.setOnClickListener(this);
-
-
+        btnRestart.setOnClickListener(this);
 
         SettingsLoader.Settings settings;
         //SettingsLoader settingsLoader = new SettingsLoader();
@@ -219,20 +227,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 
        // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        label = (TextView) findViewById(R.id.textView);
-
-
-        ShowActivePlayer();
-
-
         if(isFirstStart){
             drawFieldWithImages();
             changeSkin(activeSkin);
 
         }
-
-
-
 
        final View.OnClickListener restartlistener = new View.OnClickListener() {
             @Override
@@ -554,23 +553,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
 
-    public void ShowActivePlayer(){
-
-        if (activePlayer==TicTacToe.Cross){
-            label.setText("X");
-        }
-        else {
-            label.setText("0");
-        }
-    }
-
     public void OnAction () {
         if (activePlayer==TicTacToe.Cross) {
             activePlayer = TicTacToe.Zero;
         }else {
             activePlayer=TicTacToe.Cross;
         }
-        ShowActivePlayer();
 
         checkDraw();
 
@@ -578,7 +566,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             if (activePlayer == TicTacToe.Cross) {
                 AI().setState(TicTacToe.Cross,activeSkin);
                 activePlayer = TicTacToe.Zero;
-                ShowActivePlayer();
                 checkDraw();
             }
         }
@@ -640,7 +627,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
                 }
                 if(win==3){
-                    label.setText(getResources().getString(R.string.win)+" "+ board[i+y][x].getState().toString());
                     showWinner(board[i+y][x].getState().toString());
                     System.out.println("x="+x+" y="+y);
                     SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
@@ -661,7 +647,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
                 }
                 if(win==3){
-                    label.setText(getResources().getString(R.string.win)+" " + board[y][i+x].getState().toString());
                     showWinner(board[y][i+x].getState().toString());
                     SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
                     smartTableLayout.setWinLine( WinLineTypes.Vertical ,board[y][i+x],board[2+y][i+x], y,2+y,true);
@@ -671,7 +656,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         if (board[y][x].getState()!=TicTacToe.Empty){
             if((board[y][x].getState()==board[y+1][x+1].getState())&&(board[y+1][x+1].getState()==board[y+2][x+2].getState())){
-                label.setText(getResources().getString(R.string.win)+" " + board[y][x].getState().toString());
                 showWinner(board[y][x].getState().toString());
                 SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
                 smartTableLayout.setWinLine(WinLineTypes.LeftUpToRightDown, board[y][x],board[y+2][x+2],y,y+2,true);
@@ -682,7 +666,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         if (board[y][x+2].getState()!=TicTacToe.Empty){
             if((board[y][x+2].getState()==board[y+1][x+1].getState())&&(board[y+1][x+1].getState()==board[y+2][x].getState())){
-                label.setText(getResources().getString(R.string.win)+" " + board[y][x+2].getState().toString());
                 showWinner(board[y][x+2].getState().toString());
                 SmartTableLayout smartTableLayout = findViewById(R.id.tablelayout);
                 smartTableLayout.setWinLine(WinLineTypes.LeftDownToRightUp, board[y+2][x],board[y][x+2],y+2, y, true);
@@ -713,7 +696,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onHumanGame(){
         gameType=0;
         activePlayer=TicTacToe.Cross;
-        ShowActivePlayer();
         for (int i=0;i<gameSize;i++){
 
             for (int j=0;j<gameSize;j++){
@@ -725,7 +707,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onBotGameX(){
         gameType=1;
         activePlayer=TicTacToe.Cross;
-        ShowActivePlayer();
         for (int i=0;i<gameSize;i++){
 
             for (int j=0;j<gameSize;j++){
@@ -734,14 +715,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         isGameOver=false;
         activePlayer = TicTacToe.Zero;
-        ShowActivePlayer();
         board[1][1].setState(TicTacToe.Cross,activeSkin);
 
     }
     public void onBotGame0(){
         gameType=2;
         activePlayer=TicTacToe.Zero;
-        ShowActivePlayer();
         for (int i=0;i<gameSize;i++){
 
             for (int j=0;j<gameSize;j++){
@@ -766,7 +745,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
         }
         isGameOver=true;
-        label.setText(getResources().getString(R.string.draw));
         showWinner("");
     }
 public void getChangeLanguage(Context context){
