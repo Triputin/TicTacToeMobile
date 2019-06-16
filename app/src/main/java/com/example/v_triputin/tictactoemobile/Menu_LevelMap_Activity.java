@@ -17,7 +17,7 @@ public class Menu_LevelMap_Activity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_menu_map);
         findViewById(R.id.buttonLevelMap_Back).setOnClickListener(this);
         Intent intent = getIntent();
-        ((TextView)findViewById(R.id.textViewLevelMap)).setText(Integer.toString(intent.getIntExtra("CurrentLevel",1)));
+        ((TextView)findViewById(R.id.textViewLevelMap)).setText(Integer.toString(intent.getIntExtra("CurrentLevel",1)+1)+" / "+Integer.toString(MainActivity.levelCount));
     }
 
     @Override

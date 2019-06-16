@@ -94,6 +94,7 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
                     break;
                 case 3:
                     currentLevel = data.getIntExtra("CurrentLevel",currentLevel);
+                    break;
             }
             // если вернулось не ОК
         } else {

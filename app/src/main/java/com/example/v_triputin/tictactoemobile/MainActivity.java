@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private int activeLanguage =0;
     private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
     DialogFragment dlg1;
-    private final int levelCount = 14;
+    public static final int levelCount = 14;
     private LevelSettings[] levelSettings;
     private int currentLevel = 0;
 
@@ -249,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         activeLanguage = settings.activeLanguage;
         changeLanguage(activeLanguage);
         levelSettings = createLevelMap();
+        if(gameType==3){
+            gameSize = levelSettings[currentLevel].getGameSize();
+        }
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -313,6 +316,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         toast2.show();
     }
 
+    public void showCampainWinner(){
+        String winner;
+
+            winner=getResources().getString(R.string.congratulations);
+
+        int duration = Toast.LENGTH_LONG;
+        Toast toast2 = Toast.makeText(getApplicationContext(),
+                winner,
+                duration);
+        LinearLayout toastLayout = (LinearLayout) toast2.getView();
+        TextView toastTV = (TextView) toastLayout.getChildAt(0);
+        toastTV.setTextSize(30);
+        toast2.setGravity(Gravity.CENTER, 0, 0);
+        toast2.show();
+    }
 
     public TicTacToe getActivePlayer() {
         return activePlayer;
@@ -616,13 +634,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
     public void onCampainGame(){
         gameType=3;
+        clearField();
         gameSize = levelSettings[currentLevel].getGameSize();
-        for (int i=0;i<gameSize;i++){
-
-            for (int j=0;j<gameSize;j++){
-                board[i][j].setState(TicTacToe.Empty,activeSkin);
-            }
-        }
+        drawFieldWithImages();
         isGameOver=false;
         activePlayer = TicTacToe.Zero;
         if(levelSettings[currentLevel].getGameType()==1) {
@@ -635,8 +649,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                if(currentLevel == levelCount){
                    isGameOver=true;
                }else{
-                   currentLevel++;
-                   restartGame();
+                   if(activePlayer == TicTacToe.Cross){
+                       currentLevel++;
+                       if(currentLevel==14){
+                           showCampainWinner();
+                           currentLevel = 0;
+                       }
+                   }
+                 //  restartGame();
+                   isGameOver = true;
                }
 
             }else {
