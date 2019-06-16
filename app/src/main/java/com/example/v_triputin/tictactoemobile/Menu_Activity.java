@@ -18,6 +18,7 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
     int activeLanguage;
     int activeSkin;
     int gameType;
+    int currentLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
         activeLanguage = intent.getIntExtra("language",0);
         activeSkin = intent.getIntExtra("skin",0);
         gameType = intent.getIntExtra("gameType",2);
+        currentLevel = intent.getIntExtra("CurrentLevel",1);
         setBackGround();
     }
 
@@ -60,6 +62,9 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
                     finish();
                     break;
                 case R.id.buttonLevelMap:
+                    intent = new Intent(this, Menu_LevelMap_Activity.class);
+                    intent.putExtra("CurrentLevel", currentLevel);
+                    startActivityForResult(intent, 3);
                     break;
                 case R.id.buttonSettings:
                     intent = new Intent(this, Menu_Settings_Activity.class);
@@ -87,6 +92,8 @@ public class Menu_Activity extends AppCompatActivity implements OnClickListener 
                     activeSkin = data.getIntExtra("skin", 0);
                     gameType = data.getIntExtra("gameType", 2);
                     break;
+                case 3:
+                    currentLevel = data.getIntExtra("CurrentLevel",currentLevel);
             }
             // если вернулось не ОК
         } else {

@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private static boolean isFirstStart = true; // flag to identify that drawfield is needed
     private SmartImage[][] board =  new SmartImage [maxFieldSize][maxFieldSize]; // array of field cells
     private boolean isGameOver=false;
-    private int gameType=2; // kind of game and who will make the first turn
+   // 0 HumanGame , 1 Bot plays first , 2 bot plays second, 3 campain
+    private int gameType=2;
     private static final String STATE_GAMESIZE = "GameSize";
     private static final String STATE_TEXT_LABEL = "Label";
     private static final String STATE_BOARD = "Board";
@@ -59,14 +60,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private static final String STATE_IS_GAME_OVER = "IsGameOver";
     private static final String STATE_GAMETYPE = "GameType";
     private static final String STATE_ACTIVE_SKIN = "ActiveSkin";
+    private static final String STATE_CURRENT_LEVEL = "CurrentLevel";
     static String[] skins = {"Default","RoosterVsPony"};
     static String[] languages = {"English","Русский"};
-    static String[] gameTypeArrayEn = {"Two players","Bot plays first","Bot plays second"};
-    static String[] gameTypeArrayRu = {"Два игрока","Бот играет первым","Бот играет вторым"};
+    static String[] gameTypeArrayEn = {"Two players","Bot plays first","Bot plays second","Campain"};
+    static String[] gameTypeArrayRu = {"Два игрока","Бот играет первым","Бот играет вторым","Кампания"};
     private int activeSkin = 0;
     private int activeLanguage =0;
     private boolean blockPlayer = false;// Устанавливает на время запрет действий?, т.к. иначе компьютер ходит неестественно быстро
     DialogFragment dlg1;
+    private final int levelCount = 14;
+    private LevelSettings[] levelSettings;
+    private int currentLevel = 0;
+
+    public LevelSettings[] createLevelMap(){
+        LevelSettings[] levelSettings = new LevelSettings[levelCount];
+        int trigger = 1;
+        for(int i =0;i<levelCount;i++){
+
+            levelSettings[i] =new LevelSettings( (int)Math.ceil(((double)i+1)/2)+2 ,trigger);
+            if(trigger==1){trigger=2; }else {trigger=1;}
+        }
+        return levelSettings;
+    }
 
     @Override
     public void onClick(View view) {
@@ -79,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 intent.putExtra("language", activeLanguage);
                 intent.putExtra("skin", activeSkin);
                 intent.putExtra("gameType", gameType);
+                intent.putExtra("CurrentLevel", currentLevel);
 
                 startActivityForResult(intent, 1);
                 break;
@@ -99,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 case 1:
                     int gameSizeNew = data.getIntExtra("gameSize", 3);
                     if(gameSize!= gameSizeNew){
+                        if(gameSizeNew<3){
+                            gameSizeNew = 3;
+                        }
+                        if(gameSizeNew>maxFieldSize){
+                            gameSizeNew = maxFieldSize;
+                        }
                         gameSize=gameSizeNew;
 
                         changeBordSize();
@@ -135,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         outState.putInt(STATE_ACTIVE_SKIN,activeSkin);
         outState.putBoolean(STATE_IS_GAME_OVER,isGameOver);
         outState.putString(STATE_ACTIVE_PLAYER,activePlayer.toString());
+        outState.putInt(STATE_CURRENT_LEVEL,currentLevel);
         String [] stringBoard =  new String [gameSize*gameSize];
         for(int i =0;i<gameSize;i++){
             for (int j = 0;j<gameSize;j++){
@@ -162,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         String [] stringBoard ;
         stringBoard= savedInstanceState.getStringArray(STATE_BOARD);
         gameSize = savedInstanceState.getInt(STATE_GAMESIZE);
+        currentLevel = savedInstanceState.getInt(STATE_CURRENT_LEVEL);
         drawFieldWithImages();
         //drawField();
         for(int i =0;i<gameSize;i++){
@@ -195,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         settings.gameSize = gameSize;
         settings.gameType = gameType;
         settings.activeLanguage = activeLanguage;
+        settings.currentLevel = currentLevel;
 
         SettingsLoader.saveAppSettings(this,settings);
         super.onStop();
@@ -216,12 +242,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         SettingsLoader.Settings settings;
         //SettingsLoader settingsLoader = new SettingsLoader();
         settings = SettingsLoader.getAppSettings(this);
+        currentLevel = settings.currentLevel;
         activeSkin = settings.activeSkin;
         gameSize = settings.gameSize;
         gameType = settings.gameType;
         activeLanguage = settings.activeLanguage;
         changeLanguage(activeLanguage);
-
+        levelSettings = createLevelMap();
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -232,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             changeSkin(activeSkin);
 
         }
+
 
        final View.OnClickListener restartlistener = new View.OnClickListener() {
             @Override
@@ -266,142 +294,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch(id){
-            case R.id.gametype0: gameType=0;
-            if(!item.isChecked()){
-                item.setChecked(true);
-            }
-            restartGame();
-            break;
-            case R.id.gametype1: gameType=1;
-                if(!item.isChecked()){
-                    item.setChecked(true);
-                }
-                restartGame();
-                break;
-            case R.id.chooseskin: getChoosedSkin(MainActivity.this);
-                break;
-            case R.id.gametype2: gameType=2;
-                if(!item.isChecked()){
-                    item.setChecked(true);
-                }
-                restartGame();
-                break;
-            case R.id.boardsize:
-                //Запускаем диалоговое окно выбора размера игры,
-                // в нем есть обработчик нажатия кнопки Ок, который изменяет размер игры
-                getGameSize(MainActivity.this);
-
-            break;
-            case R.id.restartgame:restartGame();
-            break;
-            case R.id.changelanguage:getChangeLanguage(MainActivity.this);
-            break;
-
-            default:super.onOptionsItemSelected(item);
-        }
-
-        return true;
-    }
-
-    public void getGameSize(Context context) {
-        //Получаем вид с файла board_size_dialog.xml, который применим для диалогового окна:
-        LayoutInflater li = LayoutInflater.from(context);
-        View board_size_dialogView = li.inflate(R.layout.board_size_dialog, null);
-
-        //Создаем AlertDialog
-        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
-
-        //Настраиваем board_size_dialog.xml для нашего AlertDialog:
-        mDialogBuilder.setView(board_size_dialogView);
-
-        //Настраиваем отображение поля для ввода текста в открытом диалоге:
-        final EditText userInput = (EditText) board_size_dialogView.findViewById(R.id.editText);
-
-        userInput.setText(String.valueOf(gameSize));
-
-        //Настраиваем сообщение в диалоговом окне:
-        mDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                int i = Integer.parseInt(userInput.getText().toString());
-                                gameSize = i;
-                                changeBordSize();
-
-                            }
-                        })
-                .setNegativeButton(getResources().getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        //Создаем AlertDialog:
-        AlertDialog alertDialog = mDialogBuilder.create();
-        //и отображаем его:
-        alertDialog.show();
-    }
-
-    public void getChoosedSkin(Context context){
-        //Получаем вид с файла board_size_dialog.xml, который применим для диалогового окна:
-        LayoutInflater li = LayoutInflater.from(context);
-        View skin_View = li.inflate(R.layout.skin_diaog, null);
-
-        //Создаем AlertDialog
-        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
-
-        //Настраиваем board_size_dialog.xml для нашего AlertDialog:
-        mDialogBuilder.setView(skin_View);
-
-        //Настраиваем отображение поля для ввода текста в открытом диалоге:
-        final ListView listView = (ListView) skin_View.findViewById(R.id.listView);
-
-        // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, skins);
-
-        // присваиваем адаптер списку
-        listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        listView.setItemsCanFocus(true);
-        listView.setItemChecked(activeSkin,true);
-        //listView.setSelection(activeSkin);
-
-
-
-        //Настраиваем сообщение в диалоговом окне:
-        mDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                int i = listView.getCheckedItemPosition();
-                                changeSkin(i);
-
-                            }
-                        })
-                .setNegativeButton(getResources().getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        //Создаем AlertDialog:
-        AlertDialog alertDialog = mDialogBuilder.create();
-        //и отображаем его:
-        alertDialog.show();
-    }
     public void showWinner(String winner){
         if(winner==""){
             winner=getResources().getString(R.string.draw);
@@ -428,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public   void changeBordSize(){
         clearField();
         drawFieldWithImages();
-        //drawField();
+
         restartGame();
     }
     public void changeSkin(int skinId){
@@ -458,13 +350,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         int margin=20/(gameSize-2);
         int  color = Color.parseColor("#2e33bd");
 
-
         ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.layout);
-
-
-
         //constraintLayout.setBackgroundColor(color);
-
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tablelayout);
         //tableLayout.setBackgroundColor(color);
         //tableLayout.setBackgroundResource(R.drawable.back_nature01);
@@ -519,8 +406,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
            //tableRow.setBackgroundColor(Color.parseColor("#ffffff"));
             //tableRow.setWeightSum(gameSize); //total row weight
             //tableRow.setMinimumHeight(300/gameSize);
-
-
             //tableRow.setBackgroundResource(R.drawable.diamond);
 
             for (int j = 0; j < gameSize; j++) {
@@ -542,12 +427,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 //params.width = (constraintLayout.getWidth()/gameSize);
                 //params.height = (constraintLayout.getWidth()/gameSize);
                 //imageView.setLayoutParams(params);
-
             }
-
             tableLayout.addView(tableRow, i);
-
-
         }
 
     }
@@ -562,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         checkDraw();
 
-        if((!isGameOver)&&(gameType==1)||(!isGameOver)&&(gameType==2)) {
+        if((!isGameOver)&&(gameType==1)||(!isGameOver)&&(gameType==2)||(!isGameOver)&&(gameType==3)) {
             if (activePlayer == TicTacToe.Cross) {
                 AI().setState(TicTacToe.Cross,activeSkin);
                 activePlayer = TicTacToe.Zero;
@@ -688,6 +569,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             case 1:  onBotGameX();
                 break;
                 case 2: onBotGame0();
+                break;
+                case 3: onCampainGame();
+                break;
             default:
                 break;
         }
@@ -730,9 +614,34 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         isGameOver=false;
 
     }
+    public void onCampainGame(){
+        gameType=3;
+        gameSize = levelSettings[currentLevel].getGameSize();
+        for (int i=0;i<gameSize;i++){
+
+            for (int j=0;j<gameSize;j++){
+                board[i][j].setState(TicTacToe.Empty,activeSkin);
+            }
+        }
+        isGameOver=false;
+        activePlayer = TicTacToe.Zero;
+        if(levelSettings[currentLevel].getGameType()==1) {
+            board[1][1].setState(TicTacToe.Cross, activeSkin);
+        }
+    }
     public void checkDraw(){
         if(globalCheckWin()){
-            isGameOver=true;
+            if(gameType==3){
+               if(currentLevel == levelCount){
+                   isGameOver=true;
+               }else{
+                   currentLevel++;
+                   restartGame();
+               }
+
+            }else {
+                isGameOver = true;
+            }
             return;
         }
         for (int i=0;i<gameSize;i++) {
@@ -744,7 +653,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             }
         }
-        isGameOver=true;
+        if(gameType != 3) {
+            isGameOver = true;
+        }
         showWinner("");
     }
 public void getChangeLanguage(Context context){

@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".Menu_Activity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Menu_LevelMap_Activity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Menu_Settings_Activity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

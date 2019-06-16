@@ -12,12 +12,13 @@ public class SettingsLoader {
     public static final String APP_GAME_TYPE = "GameType";
     public static final String APP_ACTIVE_SKIN = "ActiveSkin";
     public static final String APP_ACTIVE_LANGUAGE = "ActiveLanguage";
-
+    public static final String APP_CURRENT_LEVEL = "Currentlevel";
     public static class Settings{
         public int gameSize=3;
         public int activeSkin = 0;
         public int gameType=2;
         public int activeLanguage =0;
+        public int currentLevel =0;
 
 
     }
@@ -37,6 +38,10 @@ public static Settings getAppSettings(MainActivity mainActivity){
     if (mSettings.contains(APP_ACTIVE_SKIN)) {
         settings.activeSkin = mSettings.getInt(APP_ACTIVE_SKIN, 0);
     }
+    if (mSettings.contains(APP_CURRENT_LEVEL)) {
+        settings.currentLevel = mSettings.getInt(APP_CURRENT_LEVEL, 0);
+    }
+
     return settings;
 }
 public static void saveAppSettings(MainActivity mainActivity,Settings settings){
@@ -46,6 +51,8 @@ public static void saveAppSettings(MainActivity mainActivity,Settings settings){
     editor.putInt(APP_ACTIVE_LANGUAGE, settings.activeLanguage );
     editor.putInt(APP_GAME_TYPE, settings.gameType);
     editor.putInt(APP_ACTIVE_SKIN, settings.activeSkin);
+    editor.putInt(APP_CURRENT_LEVEL, settings.currentLevel);
+
     editor.apply();
 }
 
