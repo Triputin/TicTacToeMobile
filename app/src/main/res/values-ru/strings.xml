@@ -23,4 +23,6 @@
     <string name="first_menu_exit">Выход</string>
     <string name="main_menu_menu">Меню</string>
     <string name="congratulations">Поздравляем! Кампания завершена!</string>
+    <string name="campain_level_text">Уровень</string>
+
 </resources>

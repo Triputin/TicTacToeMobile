@@ -28,7 +28,13 @@ public class Menu_Settings_Activity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_menu__settings_);
         Intent intent = getIntent();
         ((EditText)findViewById(R.id.gameSize)).setText(Integer.toString(intent.getIntExtra("gameSize",3)));
+        EditText editText = (EditText) findViewById(R.id.gameSize);
         findViewById(R.id.buttonBack).setOnClickListener(this);
+
+
+
+
+
         ListView listView = (ListView) findViewById(R.id.listViewLanguage);
 
 

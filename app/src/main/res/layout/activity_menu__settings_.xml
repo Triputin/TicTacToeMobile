@@ -5,6 +5,8 @@
     android:id="@+id/layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".Menu_Settings_Activity">
 
     <TextView
@@ -46,8 +48,9 @@
         android:layout_marginTop="20dp"
         android:alpha="0.9"
         android:background="@color/colorPrimary"
-        android:text="@string/choose_language"
+
         android:textColor="#fff"
+        android:text="@string/choose_language"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameSize" />
 

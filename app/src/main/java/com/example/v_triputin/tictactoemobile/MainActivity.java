@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private SmartImage[][] board =  new SmartImage [maxFieldSize][maxFieldSize]; // array of field cells
     private boolean isGameOver=false;
    // 0 HumanGame , 1 Bot plays first , 2 bot plays second, 3 campain
-    private int gameType=2;
+    private int gameType=3;
     private static final String STATE_GAMESIZE = "GameSize";
     private static final String STATE_TEXT_LABEL = "Label";
     private static final String STATE_BOARD = "Board";
@@ -71,6 +71,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     DialogFragment dlg1;
     public static final int levelCount = 14;
     private LevelSettings[] levelSettings;
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+        TextView txtvwLevel = (TextView) findViewById(R.id.content_main_Textview);
+        txtvwLevel.setText(Integer.toString(currentLevel));
+    }
+
     private int currentLevel = 0;
 
     public LevelSettings[] createLevelMap(){
@@ -84,27 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return levelSettings;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.buttonMenu:
 
-                Intent intent = new Intent(this, Menu_Activity.class);
-
-                intent.putExtra("gameSize", gameSize);
-                intent.putExtra("language", activeLanguage);
-                intent.putExtra("skin", activeSkin);
-                intent.putExtra("gameType", gameType);
-                intent.putExtra("CurrentLevel", currentLevel);
-
-                startActivityForResult(intent, 1);
-                break;
-            case R.id.buttonRestart:
-                restartGame();
-                break;
-        }
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -186,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         String [] stringBoard ;
         stringBoard= savedInstanceState.getStringArray(STATE_BOARD);
         gameSize = savedInstanceState.getInt(STATE_GAMESIZE);
-        currentLevel = savedInstanceState.getInt(STATE_CURRENT_LEVEL);
+        setCurrentLevel(  savedInstanceState.getInt(STATE_CURRENT_LEVEL));
         drawFieldWithImages();
         //drawField();
         for(int i =0;i<gameSize;i++){
@@ -230,19 +217,25 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
 
-        Button btnMenu = (Button) findViewById(R.id.buttonMenu);
-        Button btnRestart = (Button) findViewById(R.id.buttonRestart);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.content_main);
+        //MobileAds.initialize(this, "ca-app-pub-9387110068169481~9239407726");
+
+
+
+        Button btnMenu = (Button) findViewById(R.id.content_main_Button_Menu);
+        Button btnRestart = (Button) findViewById(R.id.content_main_Button_Restart);
+        TextView txtvwLevel = (TextView) findViewById(R.id.content_main_Textview);
         // присвоим обработчик кнопке (btnMenu)
         btnMenu.setOnClickListener(this);
         btnRestart.setOnClickListener(this);
 
+
         SettingsLoader.Settings settings;
         //SettingsLoader settingsLoader = new SettingsLoader();
         settings = SettingsLoader.getAppSettings(this);
-        currentLevel = settings.currentLevel;
+        setCurrentLevel(settings.currentLevel);
         activeSkin = settings.activeSkin;
         gameSize = settings.gameSize;
         gameType = settings.gameType;
@@ -288,7 +281,28 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         restartGame();
     }
 
+    @Override
+    public void onClick(View view) {
 
+        switch (view.getId()) {
+            case R.id.content_main_Button_Menu:
+
+                Intent intent = new Intent(this, Menu_Activity.class);
+
+                intent.putExtra("gameSize", gameSize);
+                intent.putExtra("language", activeLanguage);
+                intent.putExtra("skin", activeSkin);
+                intent.putExtra("gameType", gameType);
+                intent.putExtra("CurrentLevel", currentLevel);
+
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.content_main_Button_Restart:
+                restartGame();
+                break;
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -651,9 +665,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                }else{
                    if(activePlayer == TicTacToe.Cross){
                        currentLevel++;
+                       setCurrentLevel(currentLevel);
                        if(currentLevel==14){
                            showCampainWinner();
-                           currentLevel = 0;
+                          setCurrentLevel(0);
                        }
                    }
                  //  restartGame();
@@ -665,8 +680,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
             return;
         }
+        //check empty cell
         for (int i=0;i<gameSize;i++) {
-
             for (int j = 0; j < gameSize; j++) {
                 if(board[i][j].getState()==TicTacToe.Empty){
                     return;
@@ -674,9 +689,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             }
         }
-        if(gameType != 3) {
+        //draw
+
             isGameOver = true;
-        }
+
         showWinner("");
     }
 public void getChangeLanguage(Context context){

@@ -23,5 +23,7 @@
     <string name="first_menu_exit">Exit</string>
     <string name="main_menu_menu">Menu</string>
     <string name="congratulations">Congratulations! Campaign is finished!</string>
+    <string name="campain_level_text">Level</string>
+
 
 </resources>

@@ -2,9 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp"
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:shrinkColumns="*"
@@ -24,12 +24,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/content_main-Button_Menu">
 
     </com.example.v_triputin.tictactoemobile.SmartTableLayout>
 
     <Button
-        android:id="@+id/buttonMenu"
+        android:id="@+id/content_main-Button_Menu"
         android:layout_width="99dp"
         android:layout_height="61dp"
         android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonRestart"
+        android:id="@+id/content_main-Button_Restart"
         android:layout_width="99dp"
         android:layout_height="61dp"
         android:layout_marginTop="16dp"
@@ -47,4 +47,39 @@
         android:text="@string/restart_game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/content_main-Textview"
+        android:layout_width="80dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="7dp"
+        android:alpha="0.8"
+        android:background="@color/cardview_light_background"
+        android:gravity="center"
+        android:text="Test"
+        android:textAlignment="gravity"
+        android:textColor="#000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/content_main-Button_Restart"
+        app:layout_constraintEnd_toStartOf="@+id/content_main-Button_Restart"
+        app:layout_constraintStart_toEndOf="@+id/content_main-Button_Menu" />
+
+    <TextView
+        android:id="@+id/content_main-TextView_Campain_level"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.8"
+        android:background="@color/cardview_light_background"
+        android:gravity="center"
+        android:text="@string/campain_level_text"
+        android:textAlignment="gravity"
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/content_main-Textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
