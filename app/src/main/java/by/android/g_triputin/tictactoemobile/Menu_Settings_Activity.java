@@ -1,6 +1,5 @@
-package com.example.v_triputin.tictactoemobile;
+package by.android.g_triputin.tictactoemobile;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -8,15 +7,14 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import by.android.g_triputin.tictactoemobile.R;
 
 
 public class Menu_Settings_Activity extends AppCompatActivity implements View.OnClickListener{
