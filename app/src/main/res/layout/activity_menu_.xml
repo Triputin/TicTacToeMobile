@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout1"
-    tools:context=".Menu_Activity">
+    tools:context="by.android.g_triputin.tictactoemobile.Menu_Activity">
 
     <Button
         android:id="@+id/buttonContinue"

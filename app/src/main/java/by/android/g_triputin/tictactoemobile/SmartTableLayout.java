@@ -1,4 +1,4 @@
-package com.example.v_triputin.tictactoemobile;
+package by.android.g_triputin.tictactoemobile;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TableLayout;
 

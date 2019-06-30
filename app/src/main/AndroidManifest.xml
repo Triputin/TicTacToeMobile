@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.v_triputin.tictactoemobile">
+    package="by.android.g_triputin.tictactoemobile">
 
     <application
 
@@ -15,7 +15,7 @@
         >
 
         <activity
-            android:name=".MainActivity"
+            android:name="by.android.g_triputin.tictactoemobile.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,15 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menu_Activity"
+        <activity android:name="by.android.g_triputin.tictactoemobile.Menu_Activity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Menu_LevelMap_Activity"
+        <activity android:name="by.android.g_triputin.tictactoemobile.Menu_LevelMap_Activity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Menu_Settings_Activity"
+        <activity android:name="by.android.g_triputin.tictactoemobile.Menu_Settings_Activity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9387110068169481~9239407726"/>
-    </application>
+          <!--  android:value="ca-app-pub-3940256099942544~3347511713"/>
+          android:value="ca-app-pub-9387110068169481~9239407726"/> -->
+   </application>
 
 </manifest>

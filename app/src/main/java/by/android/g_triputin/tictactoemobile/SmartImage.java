@@ -1,8 +1,10 @@
-package com.example.v_triputin.tictactoemobile;
+package by.android.g_triputin.tictactoemobile;
 
 import android.content.Context;
 import android.widget.ImageView;
 import android.support.v7.widget.AppCompatImageView;
+
+import by.android.g_triputin.tictactoemobile.R;
 
 public class SmartImage extends AppCompatImageView {
     private TicTacToe state;

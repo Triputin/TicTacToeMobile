@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".Menu_Settings_Activity">
+    tools:context="by.android.g_triputin.tictactoemobile.Menu_Settings_Activity">
 
     <TextView
         android:id="@+id/textView2"

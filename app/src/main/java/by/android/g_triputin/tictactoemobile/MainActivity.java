@@ -1,7 +1,6 @@
-package com.example.v_triputin.tictactoemobile;
+package by.android.g_triputin.tictactoemobile;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,11 +8,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -22,18 +17,12 @@ import android.view.View;
 import android.view.Menu;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintLayout.LayoutParams;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.GridLayout;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import java.util.Locale;
@@ -41,7 +30,10 @@ import android.content.res.Configuration;
 import android.app.DialogFragment;
 import android.view.View.OnClickListener;
 
-import java.net.URI;
+import by.android.g_triputin.tictactoemobile.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -71,11 +63,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     DialogFragment dlg1;
     public static final int levelCount = 14;
     private LevelSettings[] levelSettings;
+    private AdView mAdView;
 
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
         TextView txtvwLevel = (TextView) findViewById(R.id.content_main_Textview);
-        txtvwLevel.setText(Integer.toString(currentLevel));
+        txtvwLevel.setText(Integer.toString(currentLevel+1));
     }
 
     private int currentLevel = 0;
@@ -217,12 +210,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.content_main);
-        //MobileAds.initialize(this, "ca-app-pub-9387110068169481~9239407726");
-
-
+        MobileAds.initialize(this, "ca-app-pub-9387110068169481~9239407726");
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         Button btnMenu = (Button) findViewById(R.id.content_main_Button_Menu);
         Button btnRestart = (Button) findViewById(R.id.content_main_Button_Restart);
@@ -298,6 +293,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 startActivityForResult(intent, 1);
                 break;
             case R.id.content_main_Button_Restart:
+                Button btnRestart = (Button) findViewById(R.id.content_main_Button_Restart);
+                btnRestart.setText(R.string.restart_game);
                 restartGame();
                 break;
         }
@@ -673,6 +670,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                    }
                  //  restartGame();
                    isGameOver = true;
+                   Button btnRestart = (Button) findViewById(R.id.content_main_Button_Restart);
+                   btnRestart.setText(R.string.continue_);
                }
 
             }else {

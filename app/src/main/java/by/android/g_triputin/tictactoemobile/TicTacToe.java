@@ -1,4 +1,4 @@
-package com.example.v_triputin.tictactoemobile;
+package by.android.g_triputin.tictactoemobile;
 
 public enum TicTacToe {
     Cross,Zero,Empty;

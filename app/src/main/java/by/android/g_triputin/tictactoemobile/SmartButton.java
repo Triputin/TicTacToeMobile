@@ -1,4 +1,4 @@
-package com.example.v_triputin.tictactoemobile;
+package by.android.g_triputin.tictactoemobile;
 
 import android.view.View;
 import android.widget.Button;
